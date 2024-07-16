@@ -1,18 +1,23 @@
-# Ludo 🎲
-Embedded Systems 2 Project, based on the Ludo Game.
+# Thermostat 🌡️
+Embedded Systems 2 Project, based on a simple Thermostat.
 
 # Brief Description:
-Ludo is played on a square board with a distinctive cross-shaped pattern, divided into four colored sections. Each player has four tokens that they must navigate from their starting point, around the board, and into their home area. The objective is to be the first to get all four tokens to the home area, overcoming challenges posed by opponents along the way.
+This project is meant to emulate the Operation of a Thermostat controlling an AC System. Temperature cooling and heating are simulated in C code since I do not have control of the outside temperature and would therefore be unable to test it out in different use cases. However, this would act as a proof of concept for a real cooling system controlled by a thermostat.
 
-# Rules
-### Rolling the Dice 🎲:
-- The first player rolls the dice. The number shown on the dice determines how many steps they can move their token.
-- If the player rolls a 6, they get an additional turn. This continues if they keep rolling a 6.
+# Features
+### Setting the Temperature 🌡️:
+- The user can set the temperature to a range between 10ºC and 30ºC, just like you would on a real-world Thermostat.
+- To have the AC adjust to that temperature, they hit the "Set" button.
   
-### Moving Tokens 🟡:
-- Players move their tokens according to the number rolled on the dice.
-- If a player’s token lands on a space occupied by an opponent’s token, the opponent’s token is sent back to their starting area, and they must start again from scratch.
+### Turning off the Thermostat 🟡:
+- There is an "Off" option which the user selects using the buttons and presses 'OK'.
   
-### Winning the Game 🏆:
-- The goal is to move all four tokens around the board and into the home area.
-- The first player to get all their tokens to the home area wins the game.
+### Running the Program on Your Machine 🏆:
+#### You Will Need:
+- DE10-Standard: Terasic - SoC Platform - Cyclone
+
+### Using the Tools.
+- Get the executable file, labeled Thermostat, and copy it over onto the board, using FileZilla or any other FTP mechanism
+- In your terminal on the board, access the file and give it permissions using 'chmod +x'.
+- Then run the executable file in your terminal.
+- Interface with the board to see the different functionalities. 
