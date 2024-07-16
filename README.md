@@ -12,7 +12,7 @@ This project is meant to emulate the Operation of a Thermostat controlling an AC
 ### Turning off the Thermostat 🟡:
 - There is an "Off" option which the user selects using the buttons and presses 'OK'.
   
-### Running the Program on Your Machine 🏆:
+### Running the Program on Your Machine 💻:
 #### You Will Need:
 - DE10-Standard: Terasic - SoC Platform - Cyclone
 
