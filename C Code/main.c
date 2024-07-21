@@ -109,7 +109,8 @@ int main()
 		int prev_key_value = *KEY_ptr;
 		int buttonValue = *KEY_ptr;
 
-
+		unsigned int last_adjustment_time = 0;
+		const unsigned int adjustment_interval = 5; // seconds
 
 		while (1)
 			{
@@ -131,12 +132,11 @@ int main()
 												DRAW_Rect(&LcdCanvas, 0,0, LcdCanvas.Width-1, LcdCanvas.Height-1, LCD_BLACK);
 
 												DRAW_Rect(&LcdCanvas, 50,20, LcdCanvas.Width-60, LcdCanvas.Height-30, LCD_BLACK);
-												DRAW_PrintString(&LcdCanvas, 65, 20, " C", LCD_BLACK, &font_16x16);
 
 												DRAW_PrintString(&LcdCanvas, 30, 5, "Set Temp", LCD_BLACK, &font_16x16);
 												char tempBuffer[20];
 												snprintf(tempBuffer, sizeof(tempBuffer), "%d°C", setTemp); // Format the temperature string
-												DRAW_PrintString(&LcdCanvas, 65, 20, tempBuffer, LCD_BLACK, &font_16x16); // Display the temperature string
+												DRAW_PrintString(&LcdCanvas, 52, 20, tempBuffer, LCD_BLACK, &font_16x16); // Display the temperature string
 
 								 				DRAW_Refresh(&LcdCanvas);
 											}
@@ -188,12 +188,13 @@ int main()
 										DRAW_PrintString(&LcdCanvas, 50, 5 + 20, "Set", LCD_BLACK, &font_16x16);
 										DRAW_PrintString(&LcdCanvas, 50, 5 + 35, "Off", LCD_BLACK, &font_16x16);
 										DRAW_Refresh(&LcdCanvas);
+
+										// call some code from Thermostat.c to start affecting the current house temperature value
 									}
 
 
-
-										// You can update your 7-segment display here
-										// *JP1_ptr = dice_value;
+								// Updating the 7 segment display
+								*JP1_ptr = houseTemp;
 
 							}
 						// UP Button
@@ -228,7 +229,7 @@ int main()
 												DRAW_Clear(&LcdCanvas, LCD_WHITE);
 												DRAW_Rect(&LcdCanvas, 0, 0, LcdCanvas.Width - 1, LcdCanvas.Height - 1, LCD_BLACK);
 												DRAW_Rect(&LcdCanvas, 50, 20, LcdCanvas.Width - 60, LcdCanvas.Height - 30, LCD_BLACK);
-												DRAW_PrintString(&LcdCanvas, 65, 20, tempBuffer, LCD_BLACK, &font_16x16); // Display the temperature string
+												DRAW_PrintString(&LcdCanvas, 52, 20, tempBuffer, LCD_BLACK, &font_16x16); // Display the temperature string
 												DRAW_PrintString(&LcdCanvas, 30, 5, "Set Temp", LCD_BLACK, &font_16x16);
 												DRAW_Refresh(&LcdCanvas);
 											}
@@ -266,7 +267,7 @@ int main()
 												 DRAW_Clear(&LcdCanvas, LCD_WHITE);
 												 DRAW_Rect(&LcdCanvas, 0, 0, LcdCanvas.Width - 1, LcdCanvas.Height - 1, LCD_BLACK);
 												 DRAW_Rect(&LcdCanvas, 50, 20, LcdCanvas.Width - 60, LcdCanvas.Height - 30, LCD_BLACK);
-												 DRAW_PrintString(&LcdCanvas, 65, 20, tempBuffer, LCD_BLACK, &font_16x16); // Display the temperature string
+												 DRAW_PrintString(&LcdCanvas, 52, 20, tempBuffer, LCD_BLACK, &font_16x16); // Display the temperature string
 												 DRAW_PrintString(&LcdCanvas, 30, 5, "Set Temp", LCD_BLACK, &font_16x16);
 												 DRAW_Refresh(&LcdCanvas);
 											}
@@ -281,6 +282,18 @@ int main()
 						// Update Previous button value
 					 	prev_key_value = *KEY_ptr;
 					}
+
+		        // Periodically check and adjust the house temperature
+		        unsigned int current_time = time(NULL);
+		        if (current_time - last_adjustment_time >= adjustment_interval)
+		        	{
+		        		// Check if houseTemp is not equal to setTemp
+		                if (houseTemp != setTemp)
+		                	{
+		                    	adjustHouseTemperatureStep();
+		                        last_adjustment_time = current_time;
+		                    }
+		            }
 			}
 
 		free(LcdCanvas.pFrame);

@@ -10,5 +10,10 @@ enum state
 	};
 
 extern enum state state;
+extern int setTemp;
+extern int houseTemp;
 
-#endif // CLOCKAPP_H
+void adjustHouseTemperature();
+void thermostatControlLoop();
+
+#endif
